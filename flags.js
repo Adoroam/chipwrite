@@ -1,28 +1,30 @@
+const [, , ...args] = process.argv
+
+const dashRegex = /^\-{1,2}/i
+const hasFlags = args.some(str => dashRegex.exec(str))
+
 const flags = () => {
-  const [bin, loc, ...args] = process.argv
-
-  const flagList = args.filter(arg => arg.startsWith('-'))
-  const hasFlags = flagList.length
-
-  const dashRegex = /^\-+/i
-  const hasDashes = str => dashRegex.exec(str)
-  const rmDashes = str => str.replace(dashRegex, '').toLowerCase()
-
-  if (!!hasFlags) {
-    return args.reduce((ac, str, i) => {
-      if (hasDashes(str)) {
-        const flag = rmDashes(str)
-        const following = args[i + 1]
-        const hasNoValue = hasDashes(following) || i === args.length - 1
-        const output = { [flag]: hasNoValue ? 1 : following }
-        return { ...ac, ...output }
-      } else {
-        return ac
-      }
-    }, {})
-  } else {
-    return {}
+  if (!hasFlags) return {}
+  const chDashes = str => {
+    const result = dashRegex.exec(str)
+    return !!result ? result[0].length : 0
   }
+  const flagMap = args.map(chDashes)
+  const rmDashes = str => str.replace(dashRegex, '').toLowerCase()
+  const crunchObject = (a, c, i) => {
+    if (!!flagMap[i]) {
+      const flag = rmDashes(c)
+      const multiFlag = flag.length > 1 && flagMap[i]===1
+      const data = flagMap[i + 1] === 0 ? args[i + 1] : true
+      const flagObject = multiFlag
+        ? Object.fromEntries(flag.split('').map(l => [l, data]))
+        : { [flag]: data }
+      return { ...a, ...flagObject }
+    } else {
+      return a
+    }
+  }
+  return args.reduce(crunchObject, {})
 }
 
 module.exports = flags()

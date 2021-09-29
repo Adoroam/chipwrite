@@ -14,8 +14,9 @@ const pasteLine = ln => {
   keyTap('A', 'control')
   !!ln ? keyTap('V', 'control') : keyTap('backspace')
   keyTap('down')
+  !!flags.e && keyTap('down')
 }
-console.log(flags)
+
 const chipWrite = async () => {
   if (flags.isan) {
     const isanURL =
@@ -25,11 +26,11 @@ const chipWrite = async () => {
     )
     clipboard = isanData.split('\n')
   }
-  if (flags.f || flags.of || flags.fo) {
+  if (flags.f) {
     const opts = { encoding: 'utf-8' }
     clipboard = readFileSync(flags.f, opts).split('\r\n')
   }
-  if (flags.o || flags.of || flags.fo) {
+  if (flags.o) {
     clipboard = [...clipboard, ...empty]
   }
   if (flags.c || flags.clear) {
