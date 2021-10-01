@@ -28,7 +28,7 @@ const pasteLine = (ln, last) => {
   emptyCases.some(reason => !!reason)
     ? keyTap('backspace')
     : keyTap('V', 'control')
-  if (last) return false
+  if (last) return
   keyTap('down')
   !!flags.e && keyTap('down')
 }
@@ -78,7 +78,7 @@ const flagHelp = [
 const chipWrite = async () => {
   if (flags.h || flags.help) {
     console.table(flagHelp)
-    return false
+    return
   }
 
   if (flags.i || flags.isan) {
