@@ -4,7 +4,7 @@ const p = require('phin')
 const robut = require('robotjs')
 const { writeSync, readSync } = require('clipboardy')
 const { readFileSync } = require('fs')
-const flags = require('./flags')
+const flags = require('flags').default
 
 robut.setKeyboardDelay(0)
 robut.setMouseDelay(0)
