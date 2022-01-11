@@ -10,6 +10,7 @@
   "author": "Ado",
   "license": "MIT",
   "dependencies": {
+    "@utility_belt/flags": "^1.0.0",
     "clipboardy": "^2.3.0",
     "phin": "^3.6.0",
     "robotjs": "^0.6.0"
